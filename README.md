@@ -47,7 +47,7 @@ prefer to create the code from scratch (sometimes this can be easier!).
 
 #### `/solutions`
 **Commit your own solutions in the `solutions` sub-directories.** 
-Read the [README](https://github.com/mimuc/mmn-ws1920/tree/master/assignments/solutions) first to find out how to do this. There won't be official solutions from our side.
+Read the [README](https://github.com/mimuc/omm-ws1920/tree/master/assignments/solutions) first to find out how to do this. There won't be official solutions from our side.
 
 ### `/tutorials`
 all example code of the tutorials, break out material and other documents are here.
