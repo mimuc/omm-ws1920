@@ -16,7 +16,6 @@ To do the Break-Out exercises during the tutorials and to complete all assignmen
   - [Sublime](https://www.sublimetext.com/)
   - WebStorm (Students are eligible for a [free version](https://www.jetbrains.com/shop/eform/students))
 
-### Major Subject
 - Git. On Windows you need to install git from [https://git-scm.com/](https://git-scm.com/). It's already included on macOS and Linux. On Mac you might want to install the [XCode Command Line Tools](http://railsapps.github.io/xcode-command-line-tools.html) to make sure you get the latest version.
     - After you're all set with git, go straight ahead to [this tutorial](https://rogerdudler.github.io/git-guide/), if you don't know git.
     - Watch [this video](https://www.youtube.com/watch?v=Y9XZQO1n_7c) to get you all up and running with git.
