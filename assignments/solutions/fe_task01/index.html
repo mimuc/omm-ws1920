@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Picture Slide Show</title>
+    <style type="text/css">
+      html {
+        font-family: sans-serif;
+        text-align: center;
+      }
+
+      #slider {
+        max-width: 600px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #slider ul {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        list-style: none;
+        transition: transform 0.3s;
+      }
+      
+      #slider li {
+        width: 100%;
+        flex-shrink: 0;
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+      }
+      
+      #slider img {
+        width: 100%;
+      }
+
+      #slider::after,
+      #slider button {
+        position: absolute;
+        top: 50%;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+      }
+
+      #slider::after {
+        content: attr(data-current-image-index);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      #slider button {
+        transform: translateY(-50%);
+        margin: 0 1rem;
+        border: 0;
+        padding: 0 1rem;
+        background: none;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      #slider button:hover,
+      #slider button:focus {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      #slider button.prev {
+        left: 0;
+      }
+
+      #slider button.next {
+        right: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Picture Slide Show</h1>
+
+    <div id="slider">
+      <ul>
+        <li>
+          <img src="https://app-layout-assets.appspot.com/assets/bg1.jpg" alt="Foggy hill landscape in violet light" />
+        </li>
+        <li>
+          <img src="https://app-layout-assets.appspot.com/assets/bg2.jpg" alt="Foggy hill landscape in light blue light" />
+        </li>
+        <li>
+          <img src="https://app-layout-assets.appspot.com/assets/bg3.jpg" alt="Alpine mountains in bluish violet light and rising moon" />
+        </li>
+        <li>
+          <img src="https://app-layout-assets.appspot.com/assets/bg4.jpg" alt="Hill landscape with trees in orange light" />
+        </li>
+      </ul>
+      <div class="controls" aria-hidden="true">
+        <button class="prev" title="Show previous image">‹</button>
+        <button class="next" title="Show next image">›</button>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const slider = document.querySelector('#slider');
+      const sliderList = slider.querySelector('ul');
+      const nextButton = slider.querySelector('.next');
+      const prevButton = slider.querySelector('.prev');
+      
+      const imageCount = slider.querySelectorAll('li').length;
+      let currentImageIndex = 0;
+
+      function goToImage(imageIncrement) {
+        currentImageIndex = (currentImageIndex + imageIncrement + imageCount) % imageCount;
+
+        const translateX = -currentImageIndex * 100;
+        sliderList.style.transform = `translateX(${translateX}%)`;
+        slider.dataset.currentImageIndex = currentImageIndex + 1;
+      }
+
+      nextButton.addEventListener('click', () => goToImage(1));
+      prevButton.addEventListener('click', () => goToImage(-1));
+
+      goToImage(0);
+    </script>
+  </body>
+</html>
