@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    * {
+        box-sizing: border-box
+    }
+
+
+    .imgContainer {
+        display: none
+    }
+
+    body {
+        font-family: Verdana, sans-serif;
+        margin: 0;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    .slideshow {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: black;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .active,
+    .dot:hover {
+        background-color: #717171;
+    }
+
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+
+
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+
+        .prev,
+        .next,
+        .text {
+            font-size: 11px
+        }
+    }
+
+    /* Number text (1/3 etc) */
+    .p1 {
+        color: black;
+        font-size: 20px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+</style>
+
+
+<body>
+
+    <div class="slideshow">
+
+
+        <div class="imgContainer">
+            <img src="http://7wallpapers.net/wp-content/uploads/9_Munich.jpg" style="width: 100%">
+            <div class="centered"></div>
+            <p class="p1">test</p>
+        </div>
+
+        <div class="imgContainer">
+            <img src="https://wallpapercave.com/wp/wp1858338.jpg" style="width: 100%">
+            <div class="centered"></div>
+            <p class="p1">test</p>
+        </div>
+
+        <div class="imgContainer">
+            <img src="https://wallpaperaccess.com/full/1095181.jpg" style="width: 100%">
+            <div class="centered"></div>
+            <p class="p1">test</p>
+        </div>
+
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094</a>
+        <a class="next" onclick="plusSlides(1)">&#10095</a>
+
+    </div>
+
+    <br />
+
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <script>
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("imgContainer");
+            var dots = document.getElementsByClassName("dot");
+            var text = document.getElementsByClassName("p1");
+
+
+            // If we are the end -> jump back to first picture
+            if (n > slides.length) {
+                slideIndex = 1;
+            }
+            // If we want to go back from 1 -> Jump to last pictures
+            if (n < 1) {
+                slideIndex = slides.length;
+            }
+
+            // Deactivate display of all slides
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+
+            var centered = document.getElementsByClassName("centered");
+            centered.textContent = "TEST";
+
+            // Iterate through all elements and set on slide index
+            for (i = 0; i < text.length; i++) {
+                text[i].innerHTML = slideIndex
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>
