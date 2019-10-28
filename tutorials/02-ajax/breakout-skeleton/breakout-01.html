@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breakout 01: post function</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<form>
+  <input type="text" placeholder="username" name="user">
+  <button type="submit">Go!</button>
+</form>
+
+<div id="output"></div>
+
+<script>
+
+  function postJSON(url, callback, params) {
+    
+    // TODO create a post request here and handle the response
+  }
+
+  var form = document.querySelector('form');
+  var userInput = document.querySelector('input[name=user]');
+  var output = document.querySelector('#output');
+
+  form.addEventListener('submit', function(e) {
+    var params;
+    e.preventDefault(); // don't submit at this point.
+
+    // with params!
+    params = JSON.stringify({user: userInput.value});
+    postJSON('http://httpbin.org/post', function(res) {
+      output.innerHTML = res.json.user;
+    }, params)
+  });
+</script>
+
+</body>
+</html>
