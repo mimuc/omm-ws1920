@@ -1,0 +1,83 @@
+*, html, body {
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+}
+
+.content-wrapper{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
+.slider {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.slider-controls {
+    padding: 30px;
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    z-index: 1;
+}
+
+.slider-control {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 20px;
+    line-height: 60px;
+    width: 60px;
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 15pt;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.slider-image {
+    width:100%;
+    height: auto;
+}
+
+.slider-count {
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    z-index: 1;
+    color: white;
+    text-shadow: 0 0 8px #000;
+    font-weight: bold;
+    font-size: 60px;
+    font-size: 6vmax;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+}
