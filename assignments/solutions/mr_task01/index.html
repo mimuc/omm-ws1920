@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #imageStage {
+            border: 3px solid orange;
+        }
+
+        .left {
+            float: left;
+            width: 15em;
+            height: 15em;
+            background-color: pink;
+        }
+
+        .center {
+            float: left;
+            width: 15em;
+            height: 15em;
+            background-color: lightblue;
+        }
+
+        .right {
+            float: left;
+            width: 15em;
+            height: 15em;
+            background-color: lightgreen;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .button {
+            position: relative;
+            top: 50%;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+        }
+
+        button.prev {
+            left: 13.5em;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="imageStage">
+    <div class="left">
+        <button class="button prev" onclick="changeImage(-1, true)">
+            <span><</span>
+        </button>
+    </div>
+    <div class="left center">
+        <img id="img" src="https://app-layout-assets.appspot.com/assets/bg1.jpg"
+             width="100%" height="100%" alt="Selfhtml">
+    </div>
+    <div class="left right">
+        <button class="button" onclick="changeImage(1, false)">
+            <span>> </span>
+        </button>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    const arrayWithImages = ["https://app-layout-assets.appspot.com/assets/bg1.jpg",
+        "https://app-layout-assets.appspot.com/assets/bg2.jpg",
+        "https://app-layout-assets.appspot.com/assets/bg3.jpg",
+        "https://app-layout-assets.appspot.com/assets/bg4.jpg"
+    ];
+    var currentImage = 0;
+
+    function changeImage(indexForNextImage, isLeft) {
+        var image = document.getElementById("img");
+        var arrayLenght = arrayWithImages.length;
+        if (currentImage == 0 && isLeft) {
+            currentImage = arrayLenght
+        }
+        currentImage += indexForNextImage;
+        if (arrayLenght - 1 < currentImage || 0 > currentImage) {
+            image.src = arrayWithImages[0];
+            currentImage = 0;
+        } else {
+            image.src = arrayWithImages[currentImage];
+        }
+    }
+</script>
+</body>
+</html>
