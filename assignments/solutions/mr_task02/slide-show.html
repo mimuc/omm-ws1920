@@ -96,22 +96,27 @@
                     width: 1920,
                     height: 1080,
                     name: 'Kamchatka'
-                },{
-                    url: 'https://www.explora.com/wp-content/uploads/2015/02/foto-1.jpg',
-                    width: 1440,
-                    height: 720,
-                    name: 'Patagonia'
-                },{
-                    url: 'http://wallsdesk.com/wp-content/uploads/2016/05/Zhangjiajie-National-Forest-Park-China-Wallpaper-.jpg',
-                    width: 1920,
-                    height: 1200
-                }
-            ]
+                }];
             const numberOfImages = () => memes.length;
             // this is a counter that holds the id/number of the currently displayed image.
             let currentImageID = 1;
-  
 
+             function takeImagesFromImgflip(url, callback) {
+                fetch(url, {
+                    method: 'GET'
+                })
+                    .then((res) => res.json())
+                    .then((json) => callback(json.data.memes));
+            };
+
+            function buildArrayWithImageLinks(arreyWithJson) {
+                memes = arreyWithJson.map(imageObjekt => new Object({
+                    url: imageObjekt.url,
+                    width: imageObjekt.width,
+                    height: imageObjekt.height,
+                    name: imageObjekt.name
+                }));
+            };
             /**
              * shows the image by giving it the 'current' class
              * the CSS in the <style> block above specifies that only the slides
@@ -158,7 +163,7 @@
             (re)loads the images for the current filter config
             */
             function loadImageUrls() {
-                // TODO load meme template images from the Imgflip API
+                takeImagesFromImgflip('https://api.imgflip.com/get_memes',buildArrayWithImageLinks);
                 showImage(0)
             }
 
