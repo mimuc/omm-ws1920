@@ -76,7 +76,26 @@ window.addEventListener('DOMContentLoaded', function () {
      */
     function loadImageUrls() {
         // TODO load meme template images from the Imgflip API
+        let url = 'https://api.imgflip.com/get_memes';
+        let req = new XMLHttpRequest();
+        req.onreadystatechange = function() {
+            if (req.readyState === 4 && req.status === 200) {
+                copyMemesToArray(JSON.parse(req.responseText));
+            }
+        };
+        req.open('GET', url);
+        req.send();
         showImage(0)
+    }
+    
+    function copyMemesToArray(json) {
+        memes = []; // clear memes array
+        let length = json.data.memes.length;
+        let rnd = Math.floor(Math.random()*(length-10)); // rnd num from 0 to length-10
+
+        for(let i = rnd-10; i < rnd; i++) {
+            memes.push(json.data.memes[i]);
+        }
     }
 
     loadImageUrls();
