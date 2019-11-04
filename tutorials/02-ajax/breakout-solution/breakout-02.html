@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breakout 02: GitHub Followers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<form id="get-form">
+  <input type="text" placeholder="username" name="myuser">
+  <button type="submit">Load my followees!</button>
+</form>
+
+<form id="delete-form">
+  <input type="text" placeholder="username" name="unfollowuser">
+  <button type="submit">Unfollow</button>
+</form>
+
+<div id="output"></div>
+  
+<script>
+
+  function getJSON(method, url, callback, params) {
+    fetch(url, {
+      method: method, // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'token 000584ef9806ec3e8c553943009644bf65ca1f9f'
+      },      
+      body: params // body data type must match "Content-Type" header
+    }).then(res => {
+      res.json().then(json => {
+        callback(json);
+      })
+    });
+  }
+
+
+  var getForm = document.querySelector('#get-form');
+  var deleteForm = document.querySelector('#delete-form');
+  var myUserInput = document.querySelector('input[name=myuser]');
+  var otherUserInput = document.querySelector('input[name=unfollowuser]');
+  var output = document.querySelector('#output');
+
+  getForm.addEventListener('submit', function(e) {
+    var params;
+    e.preventDefault(); // don't submit at this point.
+
+    
+    getJSON('GET',`https://api.github.com/users/${myUserInput.value}/following`, function(users) {
+      output.innerHTML = '';
+      users.forEach(user => {
+        output.innerHTML += `<p>${user.login}</p>`;
+      });     
+    }, null)
+  });
+
+
+  deleteForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // don't submit at this point.
+
+    // with params!   
+    getJSON('DELETE',`https://api.github.com/user/following/${otherUserInput.value}`, function(res) {
+      console.log(res.status);
+    }, null)
+  });
+</script>
+
+</body>
+</html>
