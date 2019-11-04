@@ -5,6 +5,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     const backButton = document.getElementById('backButton');
     const nextButton = document.getElementById('nextButton');
+    const submitButton = document.getElementById('submitButton');
 
     // TODO the memes array should be filled with the meme objects from the API
     let memes = [
@@ -70,6 +71,9 @@ window.addEventListener('DOMContentLoaded', function () {
         currentImageID = currentImageID === numberOfImages()-1 ? 0 : currentImageID + 1;
         showImage(currentImageID);
     });
+    submitButton.addEventListener('click', function () {
+        captionImage();
+    });
 
     /**
      (re)loads the images for the current filter config
@@ -96,6 +100,35 @@ window.addEventListener('DOMContentLoaded', function () {
         for(let i = rnd-10; i < rnd; i++) {
             memes.push(json.data.memes[i]);
         }
+    }
+
+    function captionImage() {
+        let url = 'https://api.imgflip.com/caption_image';
+        let req = new XMLHttpRequest();
+        let text0 = document.querySelector('input[name=text0]').value;
+        let text1 = document.querySelector('input[name=text1]').value;
+        let params = JSON.stringify({
+            template_id: memes[currentImageID].id,
+            username: 'freeforall6',
+            password: 'nsfw1234',
+            text0: text0,
+            text1: text1
+        });
+
+        req.open('POST', url);
+        req.setRequestHeader('Content-type', 'application/json');
+        req.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+        req.onreadystatechange = function() {
+            console.log(params);
+            if (req.readyState === 4) {
+                let json = JSON.parse(req.responseText);
+                console.log(json.data.page_url);
+                //memes[currentImageID].url = json.data.url;
+                showImage(currentImageID);
+            }
+        };
+        req.send(params);
     }
 
     loadImageUrls();
