@@ -1,0 +1,73 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font: 12pt 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+    height: 100%;
+}
+
+body {
+    /*display: flex;*/
+    transition: background-color 0.2s;
+    align-items: center;
+}
+
+#container {
+    position: relative;
+    max-width: 100%;
+    flex: 1;
+    text-align: center;
+}
+
+#slideShowImages {
+    position: relative;
+}
+
+.imageNumber {
+    color: white;
+    font-size: 200px;
+    /* centered vertically */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+figure img {
+    max-width:100%;
+}
+
+button {
+    font-size: 60px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    background-color: dodgerblue;
+    color: white;
+}
+
+button:active {
+    background-color: #00B7FF;
+}
+
+button#backButton {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+}
+
+button#nextButton {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+}
+
+.filterContainer button {
+    font-size:1.5em;
+}
+
+.filterContainer fieldset{
+    width: fit-content;
+}
+
+.filterContainer input, button, div, fieldset{
+    margin: 5px;
+}
