@@ -102,6 +102,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // TODO the imgflip API response does not contain a CORS header, so I can't test if the following works
     function captionImage() {
         let url = 'https://api.imgflip.com/caption_image';
         let req = new XMLHttpRequest();
@@ -117,14 +118,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
         req.open('POST', url);
         req.setRequestHeader('Content-type', 'application/json');
-        req.setRequestHeader('Access-Control-Allow-Origin', '*');
 
         req.onreadystatechange = function() {
-            console.log(params);
             if (req.readyState === 4) {
                 let json = JSON.parse(req.responseText);
-                console.log(json.data.page_url);
-                //memes[currentImageID].url = json.data.url;
+                memes[currentImageID].url = json.data.url;
                 showImage(currentImageID);
             }
         };
