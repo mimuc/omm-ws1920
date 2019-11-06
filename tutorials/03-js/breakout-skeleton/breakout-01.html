@@ -36,10 +36,15 @@
       }
 
       // TODO #1: Implement a setInterval that spinns the first spinner
+      const intervalCallback = setSpinPos(document.querySelector('.interval .spinner'));
+      setInterval(intervalCallback);
 
       // TODO #2: Implement a second version that uses setInterval but limits it to approximately 60 FPS
+      const interval60FPSCallback = setSpinPos(document.querySelector('.intervalfps .spinner'));
+      setInterval(interval60FPSCallback, 1000/60);
 
       // TODO #3: Implement a third version that used requestAnimationFrame
+
     }
   </script>
 </head>

@@ -2,15 +2,16 @@ window.addEventListener('DOMContentLoaded', function () {
 
     console.log('Hello World!');
 
-    let type = {
-        car: "car",
-        airplane: "airplane"
-    };
+    enum type {
+        car = "car",
+        airplane = "airplane"
+    }
 
-    let brand = {
-      airbus: "Airbus",
-      tesla: "Tesla"
-    };
+    enum brand {
+        airbus = "Airbus",
+        tesla = "Tesla",
+        vw = "VW"
+    }
 
     // some data
     let planes = [
@@ -22,12 +23,12 @@ window.addEventListener('DOMContentLoaded', function () {
         {brand: "BMW", model: "i3", type: type.car},
         {brand: brand.tesla, model: "Model 3", type: type.car},
         {brand: "Opel Astra", model: "", type: type.car},
-        {brand: "VW", model: "Golf", type: type.car},
+        {brand: brand.vw, model: "Golf", type: type.car},
     ];
     let vehicles = cars.concat(planes);
 
     // list all vehicles in a table
-    const table = document.getElementsByTagName('table')[0];
+    const table: HTMLTableElement = document.getElementsByTagName('table')[0];
     vehicles.forEach(car => {
         let tableRow = document.createElement('tr');
 
