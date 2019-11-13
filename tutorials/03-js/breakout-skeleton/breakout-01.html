@@ -44,6 +44,8 @@
       setInterval(interval60FPSCallback, 1000/60);
 
       // TODO #3: Implement a third version that used requestAnimationFrame
+      const rafCallback = setSpinPos(document.querySelector('.raf .spinner'));
+      requestAnimationFrame(function f () { rafCallback(); requestAnimationFrame(f); });
 
     }
   </script>
