@@ -3,10 +3,11 @@
  */
 class Model {
   private c = 0;
+  public observer: (_: Model) => void;
 
   // TODO: Trigger View update via Controller
   private notify () {
-
+    this.observer(this);
   }
 
   /** Current counter value */
@@ -41,10 +42,12 @@ class View {
 
     document.getElementById('incBtn').addEventListener('click', () => {
       // TODO: Trigger Model update via Controller
+      initalModel.inc();
     });
 
     document.getElementById('decBtn').addEventListener('click', () => {
       // TODO: Trigger Model update via Controller
+      initalModel.dec();
     });
   }
 
@@ -62,6 +65,8 @@ class Controller {
   constructor () {
     const model = new Model();
     const view = new View(model);
+
+    model.observer = (m) => view.update(m);
 
     // TODO: Link Model notify to View update
 
