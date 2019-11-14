@@ -29,7 +29,7 @@ This is the URL to do that: https://github.com/settings/keys
 - We will merge your repos as they are, but sometime we make small modifications or comments
 - Make sure you keep your repository in sync with the origin like so `git pull origin master && git merge origin/master`.
 Resolve any conflicts on your machine before pushing.
-- It's probably best if you somehow prefix your folder names with your initials / name / alias. Like so: `darkwingDuck_task01`, `darkwingDuck_task02`... you get the idea
+- It's probably best if you somehow prefix your folder names with your initials / name / alias. Like so: `darkwingDuck_assign01`, `darkwingDuck_assign02`... you get the idea
 - you can (and should) comment and improve others' solutions. Just let them know if you do that.  
 
 ## Help! ##
