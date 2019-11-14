@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        class AjaxEchoElement extends HTMLElement {
+            constructor () {
+                super();
+                this.addEventListener('x-ajax-success', (e) => {
+                    e.stopPropagation();
+                    const pre = document.createElement('pre');
+                    pre.appendChild(document.createTextNode(JSON.stringify(e.detail, null, 4)))
+                    this.appendChild(pre);
+                    // TODO make the Google Chart display the response's data
+                }, true);
+            }
+        }
+        customElements.define('x-ajax-echo', AjaxEchoElement);
+
+        class AjaxElement extends HTMLElement {
+            connectedCallback () {
+                if (this.hasAttribute('url')) {
+                    const method = this.hasAttribute('method') ? this.getAttribute('method') : 'get';
+                    fetch(this.getAttribute('url'), { method })
+                        .then((res) => res.json())
+                        .then((res) => {
+                            this.dispatchEvent(new CustomEvent('x-ajax-success', { bubbles: true, detail: res }), true);
+                        });
+                }
+            }
+        }
+        customElements.define('x-ajax', AjaxElement);
+    </script>
+</head>
+<body>
+<x-ajax-echo>
+    <x-ajax url="http://httpbin.org/get"></x-ajax>
+    <!-- TODO add a line chart -->
+</x-ajax-echo>
+
+<x-ajax-echo>
+    <x-ajax url="http://httpbin.org/post" method="post"></x-ajax>
+</x-ajax-echo>
+</body>
+</html>
