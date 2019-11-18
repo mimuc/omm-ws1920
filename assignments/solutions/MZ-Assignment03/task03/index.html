@@ -1,0 +1,45 @@
+<html>
+
+<head>
+  <title>OMM User Import</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <style>
+    body * {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .a-user {
+      width: 29%;
+      background-color: lightgrey;
+      border-radius: 3px;
+      border-color: darkgrey;
+      border-width: 2px;
+      border-style: solid;
+      float: left;
+      margin: 2%;
+    }
+
+    .a-user img {
+      width: 80%;
+      margin-left: 10%;
+      margin-bottom: 10px;
+    }
+
+  </style>
+  <script src="./dist/main.js"></script>
+</head>
+
+<body>
+  <p>Available users that you can import into your database:</p>
+  <div id="users">
+    <p>Please wait while user data is stolen from the internet...</p>
+  </div>
+  <p id="users-counter">0 users found</p>
+  <input type="button" class="save-btn" value="Import into Database"></input>
+  <p><span id="users-imported">0</span> users imported into database</p>
+
+  <div id="users-view">
+  </div>
+</body>
+
+</html>
