@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Image slider</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .images img {
+      width: 100%;
+      position: absolute;
+      max-width: 1200px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+
+    a.sliderBtn {
+      position: absolute;
+      color: white;
+      text-shadow: 0 0 5px white;
+      text-decoration: none;
+      z-index: 1;
+      margin-top: 25%;
+      font-size: 2em;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    a.sliderBtn.btnLeft {
+      left: 0;
+    }
+
+    a.sliderBtn.btnRight {
+      right: 0;
+    }
+
+    .status {
+      position: absolute;
+      color: white;
+      font-family: sans-serif;
+      margin: 10px;
+      z-index: 1;
+      text-align: center;
+      left: 0;
+      right: 0;
+      text-shadow: 0 0 5px black;
+    }
+
+    .show {
+      transition: opacity 400ms;
+    }
+
+    .hide {
+      opacity: 0;
+    }
+
+  </style>
+  <script>
+    var currentImageIndex;
+    const specialClamp = (val, max) => (val + max) % max
+
+    const toggleClass = (el, addClass, removeClass) => {
+      el.classList.add(addClass)
+      el.classList.remove(removeClass)
+    }
+
+    const updateImages = (change = 0) => {
+      images = document.querySelectorAll('.images img')
+      currentImageIndex = specialClamp(currentImageIndex + change, images.length);
+
+      images.forEach(el => toggleClass(el, 'hide', 'show'))
+      toggleClass(images[currentImageIndex], 'show', 'hide')
+
+      document.querySelector('.status #imgIndex').textContent = currentImageIndex + 1
+      document.querySelector('.status #imgTotal').textContent = images.length
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      currentImageIndex = 0;
+      updateImages()
+    })
+
+  </script>
+</head>
+
+<body>
+  <div>
+    <a class="sliderBtn btnLeft" href="javascript:updateImages(-1)">&#10094;</a>
+    <a class="sliderBtn btnRight" href="javascript:updateImages(+1)">&#10095;</a>
+
+    <div class="status">
+      Picture #<span id="imgIndex"></span> of <span id="imgTotal"></span>.
+    </div>
+    <div class="images">
+      <img src="https://picsum.photos/1200/800?9630" alt="Image 01">
+      <img src="https://picsum.photos/1200/800?2900" alt="Image 02">
+      <img src="https://picsum.photos/1200/800?7969" alt="Image 03">
+      <img src="https://picsum.photos/1200/800?8297" alt="Image 04">
+      <img src="https://picsum.photos/1200/800?3399" alt="Image 05">
+      <img src="https://picsum.photos/1200/800?6567" alt="Image 06">
+      <img src="https://picsum.photos/1200/800?9803" alt="Image 07">
+      <img src="https://picsum.photos/1200/800?1585" alt="Image 08">
+      <img src="https://picsum.photos/1200/800?3881" alt="Image 09">
+    </div>
+  </div>
+</body>
+
+</html>
