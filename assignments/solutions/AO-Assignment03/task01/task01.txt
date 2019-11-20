@@ -1,0 +1,5 @@
+script      -> sync
+promise2    -> async micro
+promise3    -> async micro
+timer       -> async macro
+promise1    -> async micro in macro
