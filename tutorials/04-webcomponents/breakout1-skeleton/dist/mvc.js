@@ -7,7 +7,6 @@ var Model = /** @class */ (function () {
     }
     // TODO: Trigger View update via Controller
     Model.prototype.notify = function () {
-        this.observer(this);
     };
     Object.defineProperty(Model.prototype, "count", {
         /** Current counter value */
@@ -39,11 +38,9 @@ var View = /** @class */ (function () {
         this.output = document.getElementById('output');
         document.getElementById('incBtn').addEventListener('click', function () {
             // TODO: Trigger Model update via Controller
-            initalModel.inc();
         });
         document.getElementById('decBtn').addEventListener('click', function () {
             // TODO: Trigger Model update via Controller
-            initalModel.dec();
         });
     }
     View.prototype.update = function (model) {
@@ -59,7 +56,6 @@ var Controller = /** @class */ (function () {
     function Controller() {
         var model = new Model();
         var view = new View(model);
-        model.observer = function (m) { return view.update(m); };
         // TODO: Link Model notify to View update
         // TODO: Link View events to Model method calls
     }
