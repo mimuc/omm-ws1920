@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>OMM - Tutorial 03 - Breakout 01</title>
+  <style>
+    body { display: flex; flex-direction: row; flex-wrap: wrap;}
+    .raf, .interval, .intervalfps { display: block; background-color: #ffffff; box-shadow: inset 0 0 0 1.5rem #888888, 0 0 0 1.5rem #888888; height: 16rem; width: 16rem; border-radius: 50%; position: relative; margin: 2rem; }
+    .spinner { position: absolute; border-radius: 50%; width: 3rem; height: 3rem; background-color: #009940; top: 16.66%; left: 16.66%; transform: translate(-50%, -50%); }
+    code { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  </style>
+  <script>
+    onload = () => {
+
+      /**
+       * This function is a `function factory`, i.e. a function that returns new functions.
+       * In this particular case it is a function that takes a DOM element and returns a function
+       * that when called repeatedly spins that DOM element.
+       * The `spinner` and `progression` variables are enclosed in the scope of each returned function
+       * where they do not interfere with each other. This technique is called `closure`.
+       *
+       * @param {HTMLElement} spinner The spinner DOM node
+       * @returns {Function} A closure which, upon repeated calling spinns the spinner node
+       */
+      function setSpinPos (spinner) {
+        let progression = 0;
+        return () => {
+          const x = 50 + Math.cos(Math.PI * 2 * progression) * 100 / 2;
+          const y = 50 + Math.sin(Math.PI * 2 * progression) * 100 / 2;
+          progression = (progression + 0.01) % 1;
+          spinner.style.left = x + '%';
+          spinner.style.top = y + '%';
+        }
+      }
+
+      // TODO #1: Implement a setInterval that spinns the first spinner
+      const intervalCallback = setSpinPos(document.querySelector('.interval .spinner'));
+      setInterval(intervalCallback);
+
+      // TODO #2: Implement a second version that uses setInterval but limits it to approximately 60 FPS
+      const intervalFPSCallback = setSpinPos(document.querySelector('.intervalfps .spinner'));
+      setInterval(intervalFPSCallback, 1000 / 60);
+
+      // TODO #3: Implement a third version that used requestAnimationFrame
+      const rafCallback = setSpinPos(document.querySelector('.raf .spinner'));
+      requestAnimationFrame(function f () { rafCallback(); requestAnimationFrame(f); });
+    }
+  </script>
+</head>
+<body>
+  <div class="raf"><code>requestAnimationFrame</code><span class="spinner"></span></div>
+  <div class="interval"><code>setInterval</code><span class="spinner"></span></div>
+  <div class="intervalfps"><code>setInterval 60Hz</code><span class="spinner"></span></div>
+</body>
+</html>
