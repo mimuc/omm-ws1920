@@ -1,7 +1,7 @@
 import React from 'react';
 import './mememuc.css';
 
-const MEME_API_BASE_URL = 'http://mememuc.medien.ifi.lmu.de:3000';
+const MEME_API_BASE_URL = 'http://212.227.193.27:3000';
 
 interface Meme {
   name: string;
