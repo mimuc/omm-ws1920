@@ -7,14 +7,24 @@
     <title>Assigment 04</title>
 </head>
 <body>
-    <x-ajax-echo>
-        <x-ajax url="http://httpbin.org/get"></x-ajax>
-        <!-- TODO add a line chart -->
-    </x-ajax-echo>
+
+    <label for="selectSemester">Semester:</label>
+    <select name="Semester" id="selectSemester">
+        <option value="ws1920">WS 19/20</option>
+        <option value="ws1819">WS 18/19</option>
+        <option value="ws1718">WS 17/18</option>
+        <option value="ws1617">WS 16/17</option>
+    </select>
 
     <x-ajax-echo>
-        <x-ajax url="http://httpbin.org/post" method="post"></x-ajax>
+        <x-ajax id="chartAjaxWrapper" url=""></x-ajax>
+        <!-- TODO add a line chart -->
+        <google-chart type='LineChart' options='{"title": "My awesome chart"}'
+                      data='[["x axis", "value 1"], ["category 1", 28],["category 2",25],["category 3",22]]'>
+        </google-chart>
     </x-ajax-echo>
+
 </body>
+<script type=module src="https://unpkg.com/@google-web-components/google-chart/google-chart.js?module"></script>
 <script src="script.js"></script>
 </html>
