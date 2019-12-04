@@ -1,0 +1,7 @@
+{
+  "code": 200,
+  "products": [
+    { "name": "Product A", "price": 30, "id": "id_A" },
+    { "name": "Product B", "price": 50, "id": "id_B" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "code": 201,
+  "message": "created product",
+  "products": [
+    {
+      "d5e89b80-b56e-11e6-adf3-75d0cc9cd069": {
+        "id": "d5e89b80-b56e-11e6-adf3-75d0cc9cd069",
+        "name": "Product C",
+        "price": 100
+      }
+    }
+  ]
+}
