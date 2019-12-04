@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <select name="term" id="ddTerm" onchange="changeTerm()">
+        <option value="ws1920">ws1920</option>
+        <option value="ws1819">ws1819</option>
+        <option value="ws1718">ws1718</option>
+        <option value="ws1617">ws1617</option>
+    </select>
+
+    <script type=module src="https://unpkg.com/@google-web-components/google-chart/google-chart.js?module"></script>
+
+    <x-ajax-echo>
+        <x-ajax id="ajaxWrapper"
+                url="https://raw.githubusercontent.com/mimuc/omm-ws1920/master/assignments/04-webcomponents/assignment-statistics-api/ws1920.json"></x-ajax>
+        <!-- TODO add a line chart -->
+        <google-chart type='LineChart' options='{"title": "Submission statistics OMM"}'
+                      data='[["x axis", "value 1"], ["category 1", 28],["category 2",25],["category 3",22]]'>
+        </google-chart>
+    </x-ajax-echo>
+
+
+    <script>
+        const googleChart = document.getElementsByTagName('google-chart')[0];
+        const baseUrl = "https://raw.githubusercontent.com/mimuc/omm-ws1920/master/assignments/04-webcomponents/assignment-statistics-api/"
+        var selectedTerm = document.getElementById("ddTerm");
+        var currentTerm = selectedTerm.options[selectedTerm.selectedIndex].text;
+        console.log("Selected term: ", selectedTerm)
+        const ajaxWrapper = document.getElementById("ajaxWrapper")
+
+        class AjaxEchoElement extends HTMLElement {
+            constructor() {
+                super();
+                this.addEventListener('x-ajax-success', (e) => {
+                    e.stopPropagation();
+                    const pre = document.createElement('pre');
+                    pre.appendChild(document.createTextNode(JSON.stringify(e.detail, null, 4)))
+                    this.appendChild(pre);
+                    // TODO make the Google Chart display the response's data
+                    const key = Object.keys(e.detail)[0];
+                    googleChart.setAttribute('data', JSON.stringify(e.detail[key]))
+                }, true);
+            }
+        }
+
+        customElements.define('x-ajax-echo', AjaxEchoElement);
+
+        class AjaxElement extends HTMLElement {
+            static observedAttributes = ['url'];
+
+            connectedCallback() {
+                this.showChart()
+            }
+
+            showChart() {
+                if (this.hasAttribute('url')) {
+                    console.log("In this has attribute")
+                    const method = this.hasAttribute('method') ? this.getAttribute('method') : 'get';
+                    fetch(this.getAttribute('url'), {method})
+                        .then((res) => res.json())
+                        .then((res) => {
+                            this.dispatchEvent(new CustomEvent('x-ajax-success',
+                                {
+                                    bubbles: true,
+                                    detail: res
+                                }), true);
+                        });
+                }
+            }
+
+            attributeChangedCallback(attr, oldVal, newVal) {
+                if (attr === 'url' && newVal) {
+                    console.log("Attribute changed")
+                    this.showChart()
+                }
+            }
+        }
+
+        customElements.define('x-ajax', AjaxElement);
+
+        function changeTerm() {
+            console.log("Term changed.")
+            currentTerm = selectedTerm.options[selectedTerm.selectedIndex].text;
+            let fullUrl = baseUrl + currentTerm + '.json'
+            console.log("Full url is: ", fullUrl)
+            ajaxWrapper.setAttribute('url', fullUrl)
+
+        }
+
+    </script>
+</head>
+<body>
+
+
+<!--<x-ajax-echo>-->
+<!--    <x-ajax url="http://httpbin.org/post" method="post"></x-ajax>-->
+<!--</x-ajax-echo>-->
+</body>
+</html>
