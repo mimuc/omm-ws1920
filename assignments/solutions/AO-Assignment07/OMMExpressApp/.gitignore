@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Folder for uploading image files
+/public/uploads
+
 # dependencies
 /node_modules
 /.pnp

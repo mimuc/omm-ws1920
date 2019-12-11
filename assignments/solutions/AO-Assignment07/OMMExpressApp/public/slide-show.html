@@ -172,7 +172,7 @@
             	}
 
             	// --- the REQUEST which LOADS THE IMAGES ---
-            	fetch(`http://localhost:3000/images/${imageCategory ? imageCategory : ''}${queryParams}`).then(jsonResponse => {
+            	fetch(`/images/${imageCategory ? imageCategory : ''}${queryParams}`).then(jsonResponse => {
             		jsonResponse.json().then(responseObject => {
             			document.getElementById('slideShowImages').innerHTML = '<div class="imageNumber"></div>';
             			for(let i = 0; i<responseObject.images.length; i++){  
@@ -232,7 +232,7 @@
             	const {category, location} = getUploadConfig();
                      	
                 // --- the REQUEST which is used for URL UPLOAD ---     	
-            	fetch(`http://localhost:3000/images/${category}`,{
+            	fetch(`/images/${category}`,{
             		method: 'POST',
             		mode: 'cors',
             		headers: {
@@ -255,10 +255,10 @@
 
             	const formData = new FormData();
             	formData.append('image', file);
-            	formData.append('location', location)
+            	formData.append('location', location);
 
             	// --- the REQUEST which is used for FILE UPLOAD ---
-            	fetch(`http://localhost:3000/images/${category}`,{
+            	fetch(`/images/${category}`,{
             		method: 'POST',
             		mode: 'cors',            		
             		body: formData
