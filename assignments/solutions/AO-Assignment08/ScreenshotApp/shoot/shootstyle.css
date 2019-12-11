@@ -1,0 +1,36 @@
+input[type=text], input[type=search] {
+  display: block;
+  height: 50px;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid deeppink;
+  border-radius: 5px;
+  color: deeppink;
+  outline: none;
+  margin: 10px auto;
+  width: 250px;
+  max-width: 100%;
+  transition: width 0.2s ease-in-out;
+  -webkit-transition: width 0.2s ease-in-out;
+}
+
+input[type=text]:focus, input[type=search]:focus {
+  width: 450px;
+}
+
+button {
+  display: block;
+  margin: auto;
+}
+
+h2, h3 {
+  text-transform: capitalize;
+}
+
+.card.shot {
+  margin: 16px auto;
+  text-align: center;
+}
+.card.shot > img{
+  max-width: 100%;
+}
