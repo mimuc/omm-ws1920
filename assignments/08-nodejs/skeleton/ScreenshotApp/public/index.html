@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Restricted Multimedia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+<header>
+  <span class="appName">Access Restricted Multimedia</span>
+</header>
+<div class="card">
+  <form action="/auth/login" method="post">
+    <input type="text" name="username" placeholder="User Name" min="4">
+    <input type="password" name="password" placeholder="Password" min="4">
+    <button type="submit">Log In</button>
+  </form>
+
+  <div class="spaced">
+    <a href="register.html" >Register now.</a>
+  </div>
+</div>
+
+<script>
+  window.onload = function() {
+    document.querySelector('input').focus();
+  }
+</script>
+</body>
+</html>
