@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iPod Classic 10G</title>
+    <style>
+        img {
+            width: 1024px;
+            height: 1024px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #screencontent{
+           /* background-color: red;*/
+            width: 416px;
+            left: 287px;
+            top: 141px;
+            height: 314px;
+            position: absolute;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            font-family: Calibri;
+        }
+        ul {
+            list-style-type: none;
+            padding:5px;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        ul li p{
+            margin: 2px
+        }
+        ul li .artistname{
+            font-size: 0.8em;
+        }
+        ul li .songtitle{
+            font-weight: 100;
+            font-size: 1.2em;
+            float:left;
+        }
+        #errorfooter{
+            display: none;
+            bottom: 0;
+            position: absolute;
+            width: 100%;
+            background-color: red;
+            margin: 0;
+            padding: 10px;
+            color: white;
+        }
+        #inputfooter{
+            display: none;
+            bottom: 0;
+            position: absolute;
+            width: 100%;
+            background-color: darkgrey;
+            margin: 0;
+            padding: 10px;
+            color: white;
+        }
+
+        #searchicon{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        #playlisticon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+    <img src="ipodclassic.png"/>
+    <div id="screencontent">
+        <p id="searchicon"><i class="material-icons">search</i> Search in iTunes</p>
+        <p id="playlisticon"><i class="material-icons">playlist_play</i> Back to Playlist</p>
+        <h1>Playlist Title Goes Here</h1>
+        <ul>
+
+        </ul>
+        <p id="errorfooter">Server Error!</p>
+        <div id="inputfooter">
+            <input type="text" content="Search in iTunes...">
+        </div>
+    </div>
+
+    <script>
+        const showErrorFooter = error => {
+            console.log(error)
+            document.querySelector('#screencontent #errorfooter').setAttribute('style','display: block');
+        }
+
+        const renderPlaylist = () => {
+            document.getElementById('playlisticon').setAttribute('style','display: none')
+            document.getElementById('searchicon').setAttribute('style','display: block')
+            fetch('http://localhost:3000/playlists/1').then(json => json.json().then(res => {
+                let playlistTitle = res.name
+                console.log('playlist name: '+playlistTitle)
+                document.querySelector('#screencontent h1').innerHTML = playlistTitle
+            })).catch(showErrorFooter)
+
+            fetch('http://localhost:3000/playlists/1/songs').then(json => json.json().then(res => {
+                document.querySelector('#screencontent ul').innerHTML = ''
+                res.forEach(songId => {
+                    fetch(`http://localhost:3000/playlists/1/songs/${songId}`).then(json => json.json().then(song => {
+                        document.querySelector('#screencontent ul').innerHTML +=
+                            (`<li>
+                            <p class="artistname">${song.artist}</p>
+                            <p class="songtitle">${song.title}</p>
+                            <p id="deleteicon"  onclick="deleteSongFromPlaylist(${song.id})"><i class="material-icons">delete</i></p>
+                         </li>`)
+                    })).catch(showErrorFooter)
+                })
+            })).catch(showErrorFooter)
+        }
+
+
+
+        document.querySelector('#screencontent #inputfooter').addEventListener('focusout',e => {
+            document.querySelector('#screencontent #inputfooter').setAttribute('style','display: none');
+        })
+        document.querySelector('#screencontent #inputfooter input').addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                document.querySelector('#screencontent #inputfooter').setAttribute('style','display: none');
+                search(document.querySelector('#screencontent #inputfooter input').value)
+            }
+        });
+
+        document.getElementById('searchicon').addEventListener('click',ev => {
+            document.querySelector('#screencontent #inputfooter').setAttribute('style','display: block');
+        });
+
+        document.getElementById('playlisticon').addEventListener('click',ev => {
+            document.querySelector('#screencontent #inputfooter').setAttribute('style','display: none');
+            renderPlaylist();
+        });
+
+
+        function search(searchQuery){
+            console.log('searching for: ' + searchQuery)
+            document.getElementById('playlisticon').setAttribute('style','display: block')
+            document.getElementById('searchicon').setAttribute('style','display: none')
+
+            fetch(`http://localhost:3000/search?term=${searchQuery}`).then(json => json.json().then(res => {
+                console.log(res)
+
+                // show search result
+                document.querySelector('#screencontent h1').innerHTML = 'Search Results'
+                document.querySelector('#screencontent ul').innerHTML = ''
+                res.forEach(song => {
+                    document.querySelector('#screencontent ul').innerHTML +=
+                        (`<li>
+                            <p class="artistname">${song.artist}</p>
+                            <p class="songtitle">${song.title}</p>
+                            <p id="addicon"><i class="material-icons" onclick="addSongToPlaylist(${song.id})">playlist_add</i></p>
+                         </li>`)
+                })
+            })).catch(showErrorFooter)
+        }
+
+        function addSongToPlaylist(trackId){
+            console.log('will add '+trackId)
+            fetch(`http://localhost:3000/playlists/1/songs/${trackId}`,{method:'POST'}).catch(showErrorFooter)
+        }
+
+        function deleteSongFromPlaylist(trackId){
+            console.log('will delete '+trackId)
+            fetch(`http://localhost:3000/playlists/1/songs/${trackId}`,{method:'DELETE'}).catch(showErrorFooter)
+            renderPlaylist()
+        }
+
+        renderPlaylist();
+    </script>
+</body>
+</html>

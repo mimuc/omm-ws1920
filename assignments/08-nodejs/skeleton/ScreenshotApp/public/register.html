@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+<header>
+  <span class="appName">Access Restricted Multimedia - Registration</span>
+</header>
+<div class="card">
+  <form action="/auth/register" method="post">
+    <input type="text" name="username" placeholder="User Name" min="4">
+    <input type="password" name="password" placeholder="Password" min="4">
+    <input type="password" name="confirmation" placeholder="Confirm">
+    <button type="submit">Register</button>
+  </form>
+  <div class="spaced">
+    <a href="/">Home</a>
+  </div>
+</div>
+</body>
+</html>
