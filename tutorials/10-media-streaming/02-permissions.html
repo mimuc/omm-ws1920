@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebCam Image</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<video autoplay></video>
+<script>
+  // get the first video element in the DOM
+  // in this plain HTML/JS example we can select it like this:
+  var video = document.querySelector('video');
+  // when moving this code to Polymer, you will have to adapt it to this:
+  //var video = this.shadowRoot.querySelector('video');
+  if (navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    }).then(function(stream) {
+      video.srcObject = stream;
+    }).catch(function(error) {
+      document.write(error);
+    });
+  }
+</script>
+</body>
+</html>

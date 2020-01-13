@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>getUserMedia available?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<script>
+  function isMediaDevicesCapable() {
+    return navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia;
+  }
+  if (isMediaDevicesCapable()) {
+    document.write('mediaDevices.getUserMedia supported');
+  } else {
+    document.write('sorry, mediaDevices.getUserMedia unsupported');
+  }
+
+let requestedPermissions = {
+  audio: true,
+  video: true
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<title>Twitch MIMUC</title>
+<style>
+canvas { display: none; }
+</style>
+</head>
+<body>
+<div>
+    <h2>Anchor:</h2>
+    <button id="start-stream">start streaming</button>
+    <button id="stop-stream">stop streaming</button>
+    <p id="message">
+        Streaming: OFF
+    </p>
+    <video id="anchor" autoplay></video>
+    <canvas id="capture" width="640" height="480"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+<script>
+if (!navigator.mediaDevices) {
+    document.body.textContent = 'Cannot use media devices.'
+}
+const socket = io()
+
+// use MediaDevices API
+// docs: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+let video = document.getElementById('anchor')
+navigator.mediaDevices.getUserMedia({video: true})
+.then(stream => { video.srcObject = stream })
+.catch(error => {
+    document.body.textContent = 'Could not access the camera. Error: ' + error.name
+})
+
+// button events
+document.getElementById('start-stream').addEventListener('click', () => startStream())
+document.getElementById('stop-stream').addEventListener('click', () => stopStream())
+
+// render processing
+let canvas = document.getElementById('capture')
+let context = canvas.getContext('2d')
+let stream = null
+const startStream = () => {
+    // TODO: handling start streaming
+}
+const stopStream = () => {
+    // TODO: handling stop streaming
+}
+</script>
+</body>
+</html>

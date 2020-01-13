@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+<title>WS App</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+<script>
+let socket = io()
+socket.emit('from-client', 'hello')
+socket.on('from-server', (data) => {
+    console.log(data) // 'hello, again'
+})
+</script>
+</body>
+</html>
