@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MMN Slide Show</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font: 12pt 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+            height: 100%;
+        }
+
+        body {
+            /*display: flex;*/
+            transition: background-color 0.2s;
+            align-items: center;
+        }
+
+        #container {
+            position: relative;
+            max-width: 100%;
+            flex: 1;
+            text-align: center;
+        }
+
+        #slideShowImages {
+            position: relative;
+        }
+
+        .imageNumber {
+            color: white;
+            font-size: 200px;
+            /* centered vertically */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        figure img {
+            max-width: 100%;
+        }
+
+        button {
+            font-size: 60px;
+            cursor: pointer;
+            border-radius: 6px;
+            border: none;
+            background-color: dodgerblue;
+            color: white;
+        }
+
+        button:active {
+            background-color: #00B7FF;
+        }
+
+        button#backButton {
+            position: absolute;
+            left: 50px;
+            top: 50%;
+        }
+
+        button#nextButton {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+        }
+
+        .filterContainer button {
+            font-size: 1.5em;
+        }
+
+        .filterContainer fieldset {
+            width: fit-content;
+        }
+
+        .filterContainer input,
+        button,
+        div,
+        fieldset {
+            margin: 5px;
+        }
+    </style>
+    <script>
+        'use strict';
+
+
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const backButton = document.getElementById('backButton');
+            const nextButton = document.getElementById('nextButton');
+            const createMemeForm = document.getElementById('create-meme')
+
+            // TODO the memes array should be filled with the meme objects from the API
+
+            let memes = []
+            const numberOfImages = () => memes.length;
+            // this is a counter that holds the id/number of the currently displayed image.
+            let currentImageID = 1;
+
+            function getMemes(url) {
+                fetch(url, {
+                    method: "GET"
+                }).then(res => {
+                    res.json().then(json => {
+                        memes.push(json.data.memes[0]),
+                            console.log(json.data.memes[0])
+                    })
+                })
+            }
+
+
+            /**
+             * shows the image by giving it the 'current' class
+             * the CSS in the <style> block above specifies that only the slides
+             * with the .current class are shown, the rest has display: none
+             *
+             * @param number {Number} id of the image.
+             */
+            function showImage(number) {
+                let meme = memes[number]
+                document.getElementById('slideShowImages').innerHTML = ''
+                document.getElementById('slideShowImages').append(renderImage(meme.url, meme.width, meme.height, meme.name))
+
+                console.log(`showing image ${number}`)
+            }
+
+            function renderImage(url, width, height, name) {
+                const figure = document.createElement('figure');
+                figure.className = "slidecurrent";
+                const newImage = document.createElement('img');
+                newImage.src = url;
+                newImage.width = width;
+                newImage.height = height;
+                const figCaption = document.createElement('figcaption');
+                figCaption.innerHTML = `${name}   ${url}`;
+
+                figure.appendChild(newImage);
+                figure.appendChild(figCaption);
+
+                return figure
+            }
+
+
+            backButton.addEventListener('click', function () {
+                currentImageID = currentImageID == 0 ? numberOfImages() - 1 : currentImageID - 1;
+                showImage(currentImageID);
+            });
+            nextButton.addEventListener('click', function () {
+                currentImageID = currentImageID == numberOfImages() - 1 ? 0 : currentImageID + 1;
+                showImage(currentImageID);
+            });
+
+            /**
+            (re)loads the images for the current filter config
+            */
+            async function loadImageUrls() {
+                const response = await fetch("https://api.imgflip.com/get_memes")
+                const json = await response.json()
+                memes = json.data.memes
+                console.log(memes)
+                showImage(0)
+            }
+
+            loadImageUrls();
+        });                 
+    </script>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="slideShowImages">
+            <div class="imageNumber"></div>
+            <!-- some default images -->
+            <p>Loading, please wait...</p>
+        </div>
+        <button id="backButton">❮</button>
+        <button id="nextButton">❯</button>
+    </div>
+
+
+
+</body>
+
+</html>
