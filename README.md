@@ -28,21 +28,16 @@ To do the Break-Out exercises during the tutorials and to complete all assignmen
     - Windows: the version from the NodeJS website should work.
 - Once you have npm running (check via `npm -v`), install these packages (you can do all that from the Git-Bash):
   - Express Generator: `npm install -g express-generator`
-  - Angular CLI:  `npm install -g @angular/cli`
-  - Polymer-CLI: `npm install -g polymer-cli`
 
 - MongoDB. Follow the [installation instructions](https://docs.mongodb.com/manual/installation/).
 
+- Docker. Fllow the [installation instructions](https://docs.docker.com/install/).
 
 ## Repository Structure
 
 ### `/assignments`
 
 Everything related to the assignments goes here.
-
-#### `/skeletons`
-Contains code skeletons you can use to solve the tasks - these are optional and you don't have to use them, if you
-prefer to create the code from scratch (sometimes this can be easier!).
 
 #### `/solutions`
 **Commit your own solutions in the `solutions` sub-directories.** 

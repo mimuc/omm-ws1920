@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimuc-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mimuc-app
+  template:
+    metadata:
+      labels:
+        app: mimuc-app
+    spec:
+      containers:
+        - name: mimuc-app
+          image: mimuc/helloworld:v0.0.1
+          ports:
+            - containerPort: 3000

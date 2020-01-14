@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mimuc-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8888
+    targetPort: 3000
+  selector:
+    app: mimuc-app
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimuc-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mimuc-app
+  template:
+    metadata:
+      labels:
+        app: mimuc-app
+    spec:
+      containers:
+        - name: mimuc-app
+          image: mimuc/helloworld:v0.0.1
+          ports:
+            - containerPort: 3000
