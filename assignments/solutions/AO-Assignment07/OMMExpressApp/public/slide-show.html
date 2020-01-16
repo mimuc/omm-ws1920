@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MMN Slide Show</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font: 12pt 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+            height: 100%;
+        }
+
+        body {
+            /*display: flex;*/
+            transition: background-color 0.2s;
+            align-items: center;
+        }
+
+        #container {
+            position: relative;
+            max-width: 100%;
+            flex: 1;
+            text-align: center;
+        }
+
+        #slideShowImages {
+            position: relative;
+        }
+
+        .slide {
+            display: none;            
+            margin: 50px auto;
+        }
+
+        .slide.current {
+            display: block;
+        }
+
+        .imageNumber {
+            color: white;
+            font-size: 200px;
+            /* centered vertically */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        figure img {
+        	width:100%;
+        }
+
+        button {
+            font-size: 60px;
+            cursor: pointer;
+            border-radius: 6px;
+            border: none;
+            background-color: dodgerblue;
+            color: white;
+        }
+
+        button:active {
+            background-color: #00B7FF;
+        }
+
+        button#backButton {
+            position: absolute;
+            left: 50px;
+            top: 50%;
+        }
+
+        button#nextButton {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+        }
+
+        .filterContainer button {
+            font-size:1.5em;
+        }
+
+        #inputsContainer{
+        	width: 80%;
+        	margin:10%;
+        }
+        .filterContainer{
+        	background-color: #f7f7f7;
+        	padding:10px;
+        	margin-top:20px;
+        }
+
+        .filterContainer fieldset{
+        	width: fit-content;
+        }
+
+        .filterContainer input, button, div, fieldset{
+        	margin: 5px;
+        }
+    </style>
+    <script>
+        'use strict';
+
+        let currentImage = 0;
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const slideShowImagesDiv = document.getElementById('slideShowImages');
+            const imageNumberDiv = document.querySelector('.imageNumber');
+            const backButton = document.getElementById('backButton');
+            const nextButton = document.getElementById('nextButton');
+
+            const numberOfImages = () => slideShowImagesDiv.querySelectorAll('figure').length;
+            // this is a counter that holds the id/number of the currently displayed image.
+            let currentImageID = 1;
+  
+
+            /**
+             * shows the image by giving it the 'current' class
+             * the CSS in the <style> block above specifies that only the slides
+             * with the .current class are shown, the rest has display: none
+             *
+             * @param number {Number} id of the image.
+             */
+            function showImage(number) {         
+                const currentImageNode = slideShowImagesDiv.querySelector('.slide.current');
+                const nextImageNode = document.getElementById(number);
+
+                // first hide the currently selected Image:
+                if (currentImageNode) {
+                    currentImageNode.classList.remove('current');
+                }
+
+                // then add the 'current' class to the image with the id = number;
+                if (nextImageNode) {
+                    nextImageNode.classList.add('current');
+                }
+                imageNumberDiv.innerHTML = number;
+                console.log(`showing image ${number}`)
+            }
+
+            // when we load the page, we want to show the first image:
+            showImage(currentImageID);
+
+            backButton.addEventListener('click', function () {
+                currentImageID = currentImageID == 0 ? numberOfImages()-1 : currentImageID - 1;
+                showImage(currentImageID);
+            });
+            nextButton.addEventListener('click', function () {
+                currentImageID = currentImageID == numberOfImages()-1 ? 0 : currentImageID + 1;
+                showImage(currentImageID);
+            });
+
+            /**
+            (re)loads the images for the current filter config
+            */
+            function loadImageUrls() {
+
+            	let imageCategory = undefined;
+            	const fieldsetItems = document.querySelector('#filterContainerSelect fieldset').elements;
+            	for(let i = 0; i<fieldsetItems.length; i++){
+            		if (fieldsetItems[i].checked){
+            			imageCategory = fieldsetItems[i].value;
+            			break;           
+            		}
+            	}
+            	const location = document.querySelector('#locationSearch').value;
+
+            	let queryParams = '';
+            	if (location){
+            		queryParams += `?location=${location}`;
+            	}
+
+            	// --- the REQUEST which LOADS THE IMAGES ---
+            	fetch(`/images/${imageCategory ? imageCategory : ''}${queryParams}`).then(jsonResponse => {
+            		jsonResponse.json().then(responseObject => {
+            			document.getElementById('slideShowImages').innerHTML = '<div class="imageNumber"></div>';
+            			for(let i = 0; i<responseObject.images.length; i++){  
+            				const figure = document.createElement('figure');      				
+							figure.id = i;
+							figure.className = "slide";
+            				const newImage = document.createElement('img');            				
+            				newImage.src = responseObject.images[i].url;
+            				const figCaption = document.createElement('figcaption');
+            				figCaption.innerHTML = `category: ${responseObject.images[i].categories.join(', ')}. location: ${responseObject.images[i].location}`;
+            				
+            				figure.appendChild(newImage);
+            				figure.appendChild(figCaption);
+
+            				document.getElementById('slideShowImages').appendChild(figure);
+            				console.log('added image')
+            			}
+            			showImage(0)
+            		}).catch(jsonParseError => {
+            			console.error(jsonParseError);
+            		})
+            	}).catch(requestError => {
+            		console.error(requestError);
+            	})
+            }
+
+            /*
+            reads the input fields of the upload form
+            */
+            function getUploadConfig(){
+            	const container = document.getElementById('filterContainerUpload');
+            	const fieldsetItems = container.querySelector('fieldset').elements
+            	let category;
+				for(let i = 0; i<fieldsetItems.length; i++){
+            		if (fieldsetItems[i].checked){
+            			category = fieldsetItems[i].value;
+            			break;           
+            		}
+            	}
+            	const location = container.querySelector('#location').value;
+            	return {category: category, location: location}
+            }
+
+            // ---------- ui event listeners ----------
+            document.querySelectorAll('.radio-item-slideshow').forEach(
+            	radioItem => {
+            		radioItem.addEventListener('click', e => {
+		            	console.log(`switched to photo category ${e.target.value}`);
+		            	loadImageUrls(e.target.value);
+	            	})
+            });
+
+           
+            document.getElementById('uploadButtonUrl').addEventListener('click',e => {            	
+            	const url = document.querySelector('#filterContainerUpload input[type="url"]').value;
+
+            	const {category, location} = getUploadConfig();
+                     	
+                // --- the REQUEST which is used for URL UPLOAD ---     	
+            	fetch(`/images/${category}`,{
+            		method: 'POST',
+            		mode: 'cors',
+            		headers: {
+            			"Content-Type": "application/json"
+            		},
+            		body: JSON.stringify({
+            			url: url,
+            			location: location
+            		})
+            	}).then(res => {
+            		loadImageUrls();
+            	})
+            });
+
+            document.getElementById('uploadButtonFile').addEventListener('click', e => {
+            	const container = document.getElementById('filterContainerUpload');         
+            	const file = container.querySelector('input[type="file"]').files[0];
+
+            	const {category, location} = getUploadConfig();
+
+            	const formData = new FormData();
+            	formData.append('image', file);
+            	formData.append('location', location);
+
+            	// --- the REQUEST which is used for FILE UPLOAD ---
+            	fetch(`/images/${category}`,{
+            		method: 'POST',
+            		mode: 'cors',            		
+            		body: formData
+            	}).then(res => {
+            		loadImageUrls();
+            	})
+            });
+
+            document.getElementById('locationSearch').addEventListener('input', e => {
+            	loadImageUrls();
+            })
+
+
+            loadImageUrls();
+        });                 
+    </script>
+</head>
+<body>
+
+<div id="container">
+    <div id="slideShowImages">
+        <div class="imageNumber"></div>
+        <!-- some default images -->
+        <p>Loading, please wait...</p>
+    </div>
+    <button id="backButton">❮</button>
+    <button id="nextButton">❯</button>
+</div>
+
+<div id="inputsContainer">
+	
+	<!-- filter form where the user can select the images to be displayed -->
+	<div class="filterContainer" id="filterContainerSelect">
+		<h4>Select images to show</h4>
+		<p>Select image category:</p>
+		<fieldset>
+			<input type="radio" class="radio-item-slideshow" id="radio-landscape" name="photo_category" value="landscape">
+			<label for="radio-landscape">Landscape</label>
+			<input type="radio" class="radio-item-slideshow" id="radio-wildlife" name="photo_category" value="wildlife">
+			<label for="radio-wildlife">Wildlife</label>
+			<input type="radio" class="radio-item-slideshow" id="radio-urban" name="photo_category" value="urban">	
+			<label for="radio-urban">Urban</label>					
+			<input type="radio" class="radio-item-slideshow" id="radio-travel" name="photo_category" value="travel">
+			<label for="radio-travel">Travel</label>
+		</fieldset>
+		<p>Search by location:</p>
+		<input id="locationSearch" type="text">
+	</div>
+	<!-- upload form, where the user can upload an image either by url or by file -->
+	<div class="filterContainer" id="filterContainerUpload">
+		<h4>Upload Image URL or File</h4>
+		<input type="url" placeholder="http://www.example.com/myimage.jpg">
+		<input type="file" accept="image/png, image/jpeg, image/jpg">
+		<fieldset>
+			<input type="radio" class="upload-1-radio-item" id="radio-landscape-upload" name="photo_category_upload1" value="landscape">
+			<label for="radio-landscape-upload">Landscape</label>
+			<input type="radio" class="upload-1-radio-item" id="radio-wildlife-upload" name="photo_category_upload1" value="wildlife">
+			<label for="radio-wildlife-upload">Wildlife</label>
+			<input type="radio" class="upload-1-radio-item" id="radio-urban-upload" name="photo_category_upload1" value="urban">
+			<label for="radio-urban-upload">Urban</label>
+			<input type="radio" class="upload-1-radio-item" id="radio-travel-upload" name="photo_category_upload1" value="travel">
+			<label for="radio-travel-upload">Travel</label>
+		</fieldset>
+		<input id="location" type="text">
+		<label for="location">Location</label>
+		<br/>
+		<button id="uploadButtonUrl" type="submit">Upload Url</button>
+		<button id="uploadButtonFile" type="submit">Upload File</button>
+	</div>
+</div>
+
+</body>
+</html>
