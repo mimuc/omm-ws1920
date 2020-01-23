@@ -60,7 +60,7 @@ router.get(routes.create, function(req, res) {
     status: 'ok'
   };
 
-  if (targetURL != '') { // parameter set correctly.
+  if (targetURL !== '') { // parameter set correctly.
     // check if the file is already available:
     fs.stat(output, async function(e, stat) {
 

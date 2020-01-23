@@ -19,29 +19,8 @@
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script>
-  (function(){
+<script src="screenshot.js">
 
-    /**
-     * generates an element that displays a CSS loading animation
-     *
-     * @return {jQuery|HTMLElement} can be appended anywhere in the DOM.
-     */
-    function makeCSSLoader() {
-      var loaderEl = $('<div class="cssload-container">');
-      var wheelEl = $('<div class="cssload-speeding-wheel">');
-      loaderEl.append(wheelEl);
-      return loaderEl;
-    }
-
-    // ******************************************************
-    // ***
-    // TODO: insert your code here to generate the screenshot.
-    // how? make an Ajax POST request to 'screenshots/create?url={insert-url-here}'
-    // show a loading animation while the request is loading
-    // ***
-    // ******************************************************
-  })();
 </script>
 <link rel="stylesheet" href="http://www.medien.ifi.lmu.de/lehre/ws1617/mmn/uebung/material/assignments.css">
 <link rel="stylesheet" href="shootstyle.css">

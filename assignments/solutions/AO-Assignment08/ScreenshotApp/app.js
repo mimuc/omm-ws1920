@@ -8,11 +8,8 @@ var session = require('express-session');
 
 var auth = require('./routes/auth');
 
-// ******************************************************
-// ***
 // TODO: require the shoot module.
-// ***
-// ******************************************************
+let shoot = require('./routes/shoot');
 
 var app = express();
 
@@ -48,11 +45,8 @@ app.use('/secret', [auth.ensureAuthenticated, express.static(path.join(__dirname
 
 app.use('/auth', auth);
 
-// ******************************************************
-// ***
 // TODO: insert add the router of the shoot module (just like auth).
-// ***
-// ******************************************************
+app.use('/shoot', shoot);
 
 
 // catch 404 and forward to error handler
@@ -88,6 +82,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
