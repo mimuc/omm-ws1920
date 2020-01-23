@@ -4,7 +4,7 @@
  */
 var express = require('express');
 var router = express.Router();
-var webshot = require('webshot');
+const captureWebsite = require('capture-website');
 var path = require('path');
 var fs = require('fs');
 
@@ -62,7 +62,7 @@ router.get(routes.create, function(req, res) {
 
   if (targetURL != '') { // parameter set correctly.
     // check if the file is already available:
-    fs.stat(output, function(e, stat) {
+    fs.stat(output, async function(e, stat) {
 
       if (!e && stat.isFile()) {
         elapsedMilliseconds = Date.now() - startTime;
@@ -73,24 +73,24 @@ router.get(routes.create, function(req, res) {
       } else {
         // the file is not available, yet.
         // so we have to make the expensive call to webshot()
-        webshot(targetURL, output, function(err) {
-          if (!err) {
-            // all good.
-            // the path can be used on the client to fetch the image.
-            responseJSON.path = responsePath;
-            responseJSON.message = 'created new screenshot';
-          } else {
-            // politely handle errors.
-            responseJSON.status = 'error';
-            responseJSON.message = 'could not create screenshot';
-            responseJSON.reason = err.toString();
-          }
-          elapsedMilliseconds = Date.now() - startTime;
-          responseJSON.responseTime = elapsedMilliseconds;
+        try {
+          await captureWebsite.file(targetURL, output);
+          // all good.
+          // the path can be used on the client to fetch the image.
+          responseJSON.path = responsePath;
+          responseJSON.message = 'created new screenshot';
+        } catch (err) {
+          // politely handle errors.
+          responseJSON.status = 'error';
+          responseJSON.message = 'could not create screenshot';
+          responseJSON.reason = err.toString();
+        }
 
-          // send the response here.
-          res.json(responseJSON);
-        });
+        elapsedMilliseconds = Date.now() - startTime;
+        responseJSON.responseTime = elapsedMilliseconds;
+
+        // send the response here.
+        res.json(responseJSON);
       }
     });
   } else {

@@ -19,7 +19,7 @@ function DBHandler(config) {
    * @private
    */
   function _ensureUsersTable(connection) {
-    if (connection && connection.state === 'authenticated') {
+    if (connection && (connection.state === 'authenticated' || connection.state === 'connected')) {
       var query = 'CREATE TABLE IF NOT EXISTS `' + config.users_table + '` ( \
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
     `username` VARCHAR(20) NOT NULL, \
@@ -35,6 +35,8 @@ function DBHandler(config) {
           console.log('Users table OK.');
         }
       });
+    } else {
+      console.warn('Not authenticated to database');
     }
   }
 
@@ -102,8 +104,7 @@ function DBHandler(config) {
       // there was no error, so we can ensure
       // that there is a users table
       _ensureUsersTable(connection);
-    }
-    else {
+    } else {
       console.warn(err);
     }
   });
