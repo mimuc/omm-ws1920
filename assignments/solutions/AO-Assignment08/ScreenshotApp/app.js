@@ -46,7 +46,7 @@ app.use('/secret', [auth.ensureAuthenticated, express.static(path.join(__dirname
 app.use('/auth', auth);
 
 // TODO: insert add the router of the shoot module (just like auth).
-app.use('/shoot', shoot);
+app.use('/shoot', [auth.ensureAuthenticated, shoot]);
 
 
 // catch 404 and forward to error handler
