@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<title>Twitch MIMUC</title>
+<style>
+canvas { display: none; }
+</style>
+</head>
+<body>
+<div>
+    <h2>Anchor:</h2>
+    <button id="start-stream">start streaming</button>
+    <button id="stop-stream">stop streaming</button>
+    <p id="message">
+        Streaming: OFF
+    </p>
+    <video id="anchor" autoplay></video>
+    <canvas id="capture" width="640" height="480"></canvas>
+</div>
+<script src="anchor.js"></script>
+</body>
+</html>

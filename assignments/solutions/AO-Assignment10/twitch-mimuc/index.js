@@ -1,25 +1,37 @@
-var fs = require('fs');
-var app = require('express')();
-var https = require('https').createServer({
+const fs = require('fs');
+const express = require('express');
+const app = express();
+const https = require('https');
+const server = https.createServer({
   key: fs.readFileSync('server.key'),
   cert: fs.readFileSync('server.cert')
 }, app);
-var io = require('socket.io')(https);
-var port = 3000;
+const WebSocket = require('ws');
+const port = 3000;
 
-app.get('/anchor', function(req, res){
-  res.sendFile(__dirname + '/anchor.html');
-});
-app.get('/viewer', function(req, res){
-  res.sendFile(__dirname + '/viewer.html');
-});
+app.use('/anchor', express.static('anchor'));
+app.use('/viewer', express.static('viewer'));
 
-io.on('connection', function(socket){
-  socket.on('streaming', function(image){
-    io.emit('viewing', image);
+// Use express app as server
+const wss = new WebSocket.Server({server: server, path: "/wss"});
+
+wss.on('connection', function(socket){
+  socket.on('message', function(message){
+    message = JSON.parse(message);
+    if(message.hasOwnProperty('room') && message.hasOwnProperty('data') && message.room === 'streaming') {
+      const viewing = JSON.stringify({
+        room: 'viewing',
+        data: message.data
+      });
+      wss.clients.forEach(function each(client) {
+        if (client !== wss && client.readyState === WebSocket.OPEN) {
+          client.send(viewing);
+        }
+      });
+    }
   });
 });
 
-https.listen(port, function(){
+server.listen(port, function(){
   console.log('listening on *:' + port);
 });

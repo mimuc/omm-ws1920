@@ -1,37 +1,16 @@
-<!doctype html>
-<html>
-<head>
-<title>Twitch MIMUC</title>
-<style>
-canvas { display: none; }
-</style>
-</head>
-<body>
-<div>
-    <h2>Anchor:</h2>
-    <button id="start-stream">start streaming</button>
-    <button id="stop-stream">stop streaming</button>
-    <p id="message">
-        Streaming: OFF
-    </p>
-    <video id="anchor" autoplay></video>
-    <canvas id="capture" width="640" height="480"></canvas>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
-<script>
 if (!navigator.mediaDevices) {
     document.body.textContent = 'Cannot use media devices.'
 }
-const socket = io()
+const socket = new WebSocket('wss://localhost:3000/wss');
 
 // use MediaDevices API
 // docs: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-let video = document.getElementById('anchor')
+let video = document.getElementById('anchor');
 navigator.mediaDevices.getUserMedia({video: true})
-.then(stream => { video.srcObject = stream })
-.catch(error => {
-    document.body.textContent = 'Could not access the camera. Error: ' + error.name
-})
+    .then(stream => { video.srcObject = stream })
+    .catch(error => {
+        document.body.textContent = 'Could not access the camera. Error: ' + error.name
+    })
 
 // button events
 document.getElementById('start-stream').addEventListener('click', () => startStream())
@@ -47,8 +26,11 @@ const startStream = () => {
     document.getElementById('message').innerText = 'Streaming: ON'
     // use canvas to render image data and send to server
     stream = setInterval(() => {
-        context.drawImage(video, 0, 0, 640, 480)
-        socket.emit('streaming', canvas.toDataURL('image/webp'))
+        context.drawImage(video, 0, 0, 640, 480);
+        socket.send(JSON.stringify({
+            room: 'streaming',
+            data: canvas.toDataURL('image/webp')
+        }))
     }, 40); // 25fps = 1s / 40ms
 }
 const stopStream = () => {
@@ -59,6 +41,3 @@ const stopStream = () => {
     clearInterval(stream)
     stream = null
 }
-</script>
-</body>
-</html>
