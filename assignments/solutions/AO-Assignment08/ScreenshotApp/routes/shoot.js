@@ -49,7 +49,13 @@ router.get(routes.create, function(req, res) {
   var startTime = Date.now(), elapsedMilliseconds;
   var targetURL = req.query.url || '';
   // the regex strips the "https", dots and slashes from the targetURL
-  var fileName = targetURL.replace(/(^http[s]?:\/\/)|[.\/\\]/ig, '') + '.png';
+  var fileName = targetURL.replace(/(^http[s]?:\/\/)|[.\/\\]/ig, '');
+  if(req.isAuthenticated()) {
+    // Ensure that url is unique to user
+    // username may has special chars, so used id
+    fileName += '-' + req.user.id;
+  }
+  fileName += '.png';
   // screenshot output path = full file path.
   var output = path.join(screenshotsDirectory, fileName);
 
