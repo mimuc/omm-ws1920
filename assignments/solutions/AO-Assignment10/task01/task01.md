@@ -1,4 +1,4 @@
-1. Answer the question with one line of code.
+**1. Answer the question with one line of code.**
 
 a) How to create a secure WebSocket without third party library?
 ```
