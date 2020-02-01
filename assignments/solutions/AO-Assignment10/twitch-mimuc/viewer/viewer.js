@@ -6,6 +6,7 @@ image.onload = () => { context.drawImage(image, 0, 0) };
 socket.onmessage = function (event) {
     const message = JSON.parse(event.data);
     if(message.hasOwnProperty('room') && message.hasOwnProperty('data') && message.room === 'viewing') {
-        image.src = message.data;
+        image.src = message.data.image;
+        // TODO read audio stream
     }
 };

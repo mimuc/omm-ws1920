@@ -29,7 +29,10 @@ const startStream = () => {
         context.drawImage(video, 0, 0, 640, 480);
         socket.send(JSON.stringify({
             room: 'streaming',
-            data: canvas.toDataURL('image/webp')
+            data: {
+                image: canvas.toDataURL('image/webp'),
+                audio: '' // TODO add audio stream
+            }
         }))
     }, 40); // 25fps = 1s / 40ms
 }
