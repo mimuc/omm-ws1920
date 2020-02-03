@@ -11,16 +11,6 @@
   <input type="text" placeholder="username" name="myuser">
   <button type="submit">Load my followees!</button>
 </form>
-<form id="follow">
-  <input type="text" placeholder="username" name="user">
-  <button type="submit">Follow!</button>
-</form>
-
-<form id="unfollow">
-  <input type="text" placeholder="username" name="unuser">
-  <button type="submit">UN sFollow!</button>
-</form>
-
 
 <!-- TODO 2) add a second form, where one can enter a username to unfollow -->
 
@@ -29,13 +19,12 @@
 <script>
 
   function getJSON(method, url, callback, params) {
-    // TODO 2) maybe some authorization is necessary?; DONE
+    // TODO 2) maybe some authorization is necessary?
     fetch(url, {
       method: method, // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // otherwise we might not see changes immediately
       headers: {
-          'Content-Type': 'application/json',
-          'Authorization':'Token '
+        'Content-Type': 'application/json'
       },      
       body: params // body data type must match "Content-Type" header
     }).then(res => {
@@ -45,65 +34,24 @@
     });
   }
 
-  function upload(method, url, callback, params) {
-      // TODO 2) maybe some authorization is necessary?; DONE
-      fetch(url, {
-          method: method, // *GET, POST, PUT, DELETE, etc.
-          cache: 'no-cache', // otherwise we might not see changes immediately
-          headers: {
-              'Content-Length':0,
-              'Content-Type': 'application/json',
-              'Authorization':'Token '
-          },
-          body: params // body data type must match "Content-Type" header
-      });
-  }
-
 
   var getForm = document.querySelector('#get-form');
   var myUserInput = document.querySelector('input[name=myuser]');
   var output = document.querySelector('#output');
 
-  var follow = document.querySelector('#follow');
-  var user = document.querySelector('input[name=user]');
-
-  var unfollow = document.querySelector('#unfollow');
-  var unuser = document.querySelector('input[name=unuser]');
-
-
   getForm.addEventListener('submit', function(e) {
     var params;
     e.preventDefault(); // don't submit at this point.
 
-    // TODO 1) load list followees instead of user profile; DONE
-    getJSON('GET',`https://api.github.com/users/${myUserInput.value}/followers`, function(user) {
-        // TODO 1) append one p tag for each followee
-        output.innerHTML = '';
-        var jsonValues = user.map(p=> '<p>'+p.login+'</p>');
-        output.innerHTML += jsonValues.join(' ');
+    // TODO 1) load list followees instead of user profile
+    getJSON('GET',`https://api.github.com/users/${myUserInput.value}`, function(user) {    
+        // TODO 1) append one p tag for each followee 
+        output.innerHTML += `<p>${JSON.stringify(user)}</p>`;    
     }, null)
   });
 
 
  // TODO 2) handle unfollow action
-  follow.addEventListener('submit', function(e) {
-      var params;
-      e.preventDefault(); // don't submit at this point.
-
-      // TODO 1) load list followees instead of user profile; DONE
-      upload('PUT',`https://api.github.com/user/following/${user.value}`, null, null)
-  });
-
-
-  unfollow.addEventListener('submit', function(e) {
-      var params;
-      e.preventDefault(); // don't submit at this point.
-
-      // TODO 1) load list followees instead of user profile; DONE
-      upload('DELETE',`https://api.github.com/user/following/${unuser.value}`, null, null)
-  });
-
-
 </script>
 
 </body>
