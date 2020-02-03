@@ -1,0 +1,13 @@
+{
+  "name": "twitch-mimuc",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jimp": "^0.9.3",
+    "ws": "^7.2.1"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
