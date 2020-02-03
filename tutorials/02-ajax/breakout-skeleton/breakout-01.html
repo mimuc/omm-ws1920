@@ -17,17 +17,8 @@
 <script>
 
   function postJSON(url, callback, params) {
-    fetch (url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        //das was wir wollen an server schicken
-        body: params
-    })
-        //unten res ist Antwort von Server und wir überarbeiten es in Json
-        .then((res) => res.json())
-    //unten 'json' Parameter ist parameter der kommt von oben (res.json())
-        .then((json) => callback(json));
-    //order wir kann es so manchen .then(callback)
+    
+    // TODO create a post request here and handle the response
   }
 
   var form = document.querySelector('form');
