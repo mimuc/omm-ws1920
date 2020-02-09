@@ -1,0 +1,54 @@
+.mememuc {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+}
+
+.meme-list,
+.params {
+  background-color: #888;
+  width: 24rem;
+}
+
+.meme-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.meme-list li {
+  padding: 1rem;
+}
+
+.meme-list img {
+  max-width: 100%;
+}
+
+.results {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.results img {
+  max-width: 100%;
+}
+
+.params .texts,
+.params .positions {
+  display: flex;
+  flex-direction: row;
+}
+
+.params .texts input {
+  width: 50%;
+}
+
+.params .positions input {
+  width: 25%;
+}
+
+.save-fav {
+  margin: 5px;
+}
