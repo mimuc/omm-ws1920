@@ -1,0 +1,16 @@
+{
+  "name": "mz-assignment07",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-fileupload": "^1.1.6",
+    "morgan": "~1.9.1",
+    "uuid": "^3.4.0"
+  }
+}
