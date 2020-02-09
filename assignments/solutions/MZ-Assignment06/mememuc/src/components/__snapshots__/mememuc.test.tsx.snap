@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test meme handling allows meme to be removed from favorites 1`] = `
+<div
+  class="meme-history"
+>
+  <div
+    class="a-meme-history-item"
+  >
+    <img
+      alt="history"
+      src="http://212.227.193.27:3000/memes/doge?text=ate+too+many+chickem+nuggers&x=0&y=0&text2=need+to+sleep+plz&x2=0&y2=0"
+    />
+    <div
+      class="mat-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    class="a-meme-history-item"
+  >
+    <img
+      alt="history"
+      src="http://212.227.193.27:3000/memes/raptor?text=Isn%27t+the+raptor+claw&x=0&y=0&text2=on+the+foot%3F&x2=0&y2=0"
+    />
+    <div
+      class="mat-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Test meme handling allows meme to be restored from favorites 1`] = `
+<div
+  class="results"
+>
+  <img
+    alt="selected"
+    src="http://212.227.193.27:3000/memes/raptor?text=Isn%27t+the+raptor+claw&x=0&y=0&text2=on+the+foot%3F&x2=0&y2=0"
+  />
+</div>
+`;
+
+exports[`Test meme handling allows meme to be restored from favorites 2`] = `
+<div
+  class="results"
+>
+  <img
+    alt="selected"
+    src="http://212.227.193.27:3000/memes/doge?text=ate+too+many+chickem+nuggers&x=0&y=0&text2=need+to+sleep+plz&x2=0&y2=0"
+  />
+</div>
+`;
+
+exports[`Test meme handling saves meme to favorites 1`] = `
+<div
+  class="meme-history"
+>
+  <div
+    class="a-meme-history-item"
+  >
+    <img
+      alt="history"
+      src="http://212.227.193.27:3000/memes/doge?text=ate+too+many+chickem+nuggers&x=0&y=0&text2=need+to+sleep+plz&x2=0&y2=0"
+    />
+    <div
+      class="mat-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    class="a-meme-history-item"
+  >
+    <img
+      alt="history"
+      src="http://212.227.193.27:3000/memes/boromir?text=One+does+not+simply&x=0&y=0&text2=skip+the+assignments&x2=0&y2=0"
+    />
+    <div
+      class="mat-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    class="a-meme-history-item"
+  >
+    <img
+      alt="history"
+      src="http://212.227.193.27:3000/memes/raptor?text=Isn%27t+the+raptor+claw&x=0&y=0&text2=on+the+foot%3F&x2=0&y2=0"
+    />
+    <div
+      class="mat-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders meme correctly 1`] = `
+<div
+  class="results"
+>
+  <img
+    alt="selected"
+    src="http://212.227.193.27:3000/memes/doge?text=ate+too+many+chickem+nuggers&x=0&y=0&text2=need+to+sleep+plz&x2=0&y2=0"
+  />
+</div>
+`;
