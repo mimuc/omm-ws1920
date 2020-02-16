@@ -1,0 +1,24 @@
+{
+  "name": "ScreenshotApp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "capture-website": "^0.8.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "morgan": "^1.9.1",
+    "mysql": "^2.18.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.4",
+    "serve-favicon": "^2.5.0",
+    "webshot": "^0.18.0"
+  }
+}
