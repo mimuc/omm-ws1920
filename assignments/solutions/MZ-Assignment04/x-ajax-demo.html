@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type=module src="https://unpkg.com/@google-web-components/google-chart/google-chart.js?module"></script>
+  <title>Document</title>
+  <script>
+    class AjaxChartElement extends HTMLElement {
+      constructor() {
+        super();
+        this.addEventListener('x-ajax-success', (e) => {
+          e.stopPropagation();
+
+          const oldChart = this.querySelector('google-chart')
+          oldChart && oldChart.remove()
+
+          const [title, data] = Object.entries(e.detail)[0]
+          const chart = document.createElement('google-chart');
+          chart.setAttribute('type', 'line')
+          chart.setAttribute('options', JSON.stringify({ "title": title }))
+          chart.setAttribute('data', JSON.stringify(data))
+
+          this.appendChild(chart);
+        }, true);
+      }
+    }
+    customElements.define('x-ajax-chart', AjaxChartElement);
+
+    class AjaxElement extends HTMLElement {
+      static get observedAttributes() { return ['url']; }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        this.makeRequest()
+      }
+
+      connectedCallback() {
+        this.makeRequest()
+      }
+
+      makeRequest() {
+        if (!this.hasAttribute('url')) { return }
+
+        const method = this.hasAttribute('method') ? this.getAttribute('method') : 'get';
+        fetch(this.getAttribute('url'), { method })
+          .then((res) => res.json())
+          .then((res) => {
+            this.dispatchEvent(new CustomEvent('x-ajax-success', { bubbles: true, detail: res }), true);
+          });
+      }
+    }
+    customElements.define('x-ajax', AjaxElement);
+
+    window.onload = () => {
+      document.querySelector('select').onchange = (event) => {
+        document.querySelector('x-ajax').setAttribute('url', `https://raw.githubusercontent.com/mimuc/omm-ws1920/master/assignments/04-webcomponents/assignment-statistics-api/${event.target.value}.json`)
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+  <select>
+    <option selected disabled> please select </option>
+    <option>ws1920</option>
+    <option>ws1819</option>
+    <option>ws1718</option>
+    <option>ws1617</option>
+  </select>
+
+  <x-ajax-chart>
+    <x-ajax />
+  </x-ajax-chart>
+</body>
+
+</html>

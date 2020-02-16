@@ -1,0 +1,46 @@
+.history-container {
+  background-color: #a9a9a9;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  position: fixed;
+}
+
+.history-container h4 {
+  margin-bottom: 5px;
+  margin-left: 1rem;
+  margin-top: 5px;
+}
+
+.meme-history {
+  width: 100%;
+  padding: 2%;
+  padding-top: 0;
+  height: 15vh;
+}
+
+.a-meme-history-item {
+  overflow: hidden;
+  height: 100%;
+  float: left;
+  position: relative;
+  margin-right: 10px;
+}
+
+.a-meme-history-item img {
+  max-height: 96%;
+  cursor: pointer;
+}
+
+.a-meme-history-item img:hover {
+  max-height: 98%;
+}
+
+.a-meme-history-item .mat-icon {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}

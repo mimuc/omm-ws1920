@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MMN Slide Show</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font: 12pt 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+      height: 100%;
+    }
+
+    body {
+      /*display: flex;*/
+      transition: background-color 0.2s;
+      align-items: center;
+    }
+
+    #container {
+      position: relative;
+      max-width: 100%;
+      flex: 1;
+      text-align: center;
+    }
+
+    #slideShowImages {
+      position: relative;
+    }
+
+    .imageNumber {
+      color: white;
+      font-size: 200px;
+      /* centered vertically */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    figure img {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 800px;
+    }
+
+    button {
+      font-size: 60px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background-color: dodgerblue;
+      color: white;
+    }
+
+    button:active {
+      background-color: #00B7FF;
+    }
+
+    button#backButton {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+    }
+
+    button#nextButton {
+      position: absolute;
+      right: 50px;
+      top: 50%;
+    }
+
+    .filterContainer button {
+      font-size: 1.5em;
+    }
+
+    .filterContainer fieldset {
+      width: fit-content;
+    }
+
+    .filterContainer input,
+    button,
+    div,
+    fieldset {
+      margin: 5px;
+    }
+
+  </style>
+  <script>
+    'use strict';
+
+    const imgflipCredentials = {
+      username: '**REDACTED**',
+      password: '**REDACTED**'
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const backButton = document.getElementById('backButton');
+      const nextButton = document.getElementById('nextButton');
+      const btnCaption = document.getElementById('btnCaption');
+
+      const txtCaptions = [
+        document.getElementById('txtLine1'),
+        document.getElementById('txtLine2')
+      ]
+
+      let memes = []
+
+      const numberOfImages = () => memes.length;
+
+      // this is a counter that holds the id/number of the currently displayed image.
+      let currentImageID = 0;
+
+
+      function showImage(number, opts = {}) {
+        let meme = Object.assign(memes[number], opts)
+
+        document.getElementById('slideShowImages').innerHTML = ''
+        document.getElementById('slideShowImages').append(renderImage(meme.url, meme.width, meme.height, meme.name))
+      }
+
+      function renderImage(url, width, height, name) {
+        const figure = document.createElement('figure');
+        figure.className = "slidecurrent";
+        const newImage = document.createElement('img');
+        newImage.src = url;
+        newImage.width = width;
+        newImage.height = height;
+        const figCaption = document.createElement('figcaption');
+        figCaption.innerHTML = `${name}   ${url}`;
+
+        figure.appendChild(newImage);
+        figure.appendChild(figCaption);
+
+        return figure
+      }
+
+      const specialClamp = (val, max) => (val + max) % max
+
+      const slideImage = step => {
+        currentImageID = specialClamp(currentImageID + step, numberOfImages())
+        txtCaptions.forEach(el => { el.value = '' })
+        showImage(currentImageID);
+      }
+
+      const encodeFormData = data =>
+        Object.keys(data)
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+        .join('&');
+
+      const captionImage = () => {
+        const data = { template_id: memes[currentImageID].id }
+        txtCaptions.forEach((el, i) => { data[`text${i}`] = el.value })
+
+        fetch("https://api.imgflip.com/caption_image", {
+            "method": "POST",
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+            },
+            "body": encodeFormData(Object.assign(imgflipCredentials, data))
+          })
+          .then(res => res.json())
+          .then(json => showImage(currentImageID, json.data))
+      }
+
+      backButton.addEventListener('click', () => slideImage(-1))
+      nextButton.addEventListener('click', () => slideImage(+1))
+      btnCaption.addEventListener('click', captionImage)
+      document.addEventListener('keydown', e => {
+        // Are we composing?
+        if (txtCaptions.includes(document.activeElement)) {
+          // Enter
+          if (e.keyCode === 13) {
+            captionImage()
+            return false
+          }
+          return true
+        }
+
+        // Left key
+        if (e.keyCode === 37) {
+          slideImage(-1)
+          return false
+        }
+
+        // Right key
+        if (e.keyCode === 39) {
+          slideImage(+1)
+          return false
+        }
+      })
+
+      /**
+      (re)loads the images for the current filter config
+      */
+      function loadImageUrls() {
+        fetch("https://api.imgflip.com/get_memes")
+          .then(res => res.json())
+          .then(json => {
+            memes = json.data.memes
+            showImage(0)
+          })
+      }
+
+      loadImageUrls();
+    });
+
+  </script>
+</head>
+
+<body>
+
+  <div id="container">
+    <div id="slideShowImages">
+      <div class="imageNumber"></div>
+      <!-- some default images -->
+      <p>Loading, please wait...</p>
+    </div>
+    <div>
+      <input type="text" placeholder="Line #1" id="txtLine1">
+      <input type="text" placeholder="Line #2" id="txtLine2">
+      <input type="button" value="Caption" id="btnCaption">
+    </div>
+    <button id="backButton">❮</button>
+    <button id="nextButton">❯</button>
+  </div>
+
+
+</body>
+
+</html>

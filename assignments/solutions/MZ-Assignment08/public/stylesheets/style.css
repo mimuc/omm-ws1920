@@ -1,0 +1,69 @@
+body, html {
+  margin:0;
+  padding: 0;
+}
+
+body {
+  font: 12pt Arial, sans-serif;
+  position: relative;
+  background-color: #eee;
+}
+
+header {
+  padding: 24px 0;
+  background-color: dodgerblue;
+  font-size: 30px;
+  color: white;
+  width: 100%;
+  z-index: 1;
+  display:flex;
+}
+
+a {
+  color: dodgerblue;
+}
+
+input {
+  height: 60px;
+  max-width: 20%;
+  font-size: 27px;
+  border-radius: 10px;
+  border: none;
+  padding-left: 10px;
+}
+
+button {
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  cursor:pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+button:hover {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.appName {
+  margin: 0 24px;
+}
+
+.card {
+  margin: 24px;
+  padding: 16px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  min-width: 250px;
+}
+
+.spaced {
+  margin: 32px 0;
+}
+

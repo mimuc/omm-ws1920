@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<header><span>Screenshot Service</span></header>
+
+<div id="container">
+  <form id="urlForm">
+    <input id="urlInput" type="text" name="url" placeholder="Enter URL of a website to take screenshot" />
+    <button id="go" type="submit">Go!</button>
+  </form>
+</div>
+
+<div id="result"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+  (function() {
+
+    /**
+     * generates an element that displays a CSS loading animation
+     *
+     * @return {jQuery|HTMLElement} can be appended anywhere in the DOM.
+     */
+    function makeCSSLoader() {
+      var loaderEl = $('<div class="cssload-container">');
+      var wheelEl = $('<div class="cssload-speeding-wheel">');
+      loaderEl.append(wheelEl);
+      return loaderEl;
+    }
+
+    // ******************************************************
+    // ***
+    // TODO: insert your code here to generate the screenshot.
+    // how? make an Ajax POST request to 'screenshots/create?url={insert-url-here}'
+    // show a loading animation while the request is loading
+    // ***
+    // ******************************************************
+    $('#urlForm').on('submit', function(e) {
+      e.preventDefault()
+      $('#result').html(`<div class="cssload-container"><div class="cssload-speeding-wheel"></div></div>`)
+      $.ajax(`http://localhost:3000/shoot/screenshots/create/?url=${$('#urlInput').val()}`)
+        .done(res => {
+          $('#result').html(`<div class="card"><div class="shot"><img src="${res.path}" /></div></div>`)
+        })
+    })
+
+  })();
+
+</script>
+<link rel="stylesheet" href="http://www.medien.ifi.lmu.de/lehre/ws1617/mmn/uebung/material/assignments.css">
+<link rel="stylesheet" href="shootstyle.css">
+<link rel="stylesheet" href="cssloader.css">
+
+</html>
